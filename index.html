@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" type="image/png" href="https://uploads.onecompiler.io/44ks3jcac/44rjbmjed/download__2_-removebg-preview.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wisney+</title>
+    <style>
+        body.login-mode {
+            overflow: hidden;
+        }
+
+        #app.hidden,
+        #authScreen.hidden,
+        #moviePage.hidden,
+        #videoPage.hidden {
+            display: none !important;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #08111f;
+            color: white;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding: 30px 20px;
+            background: black;
+            text-align: center;
+        }
+
+        .footer-logo {
+            height: 35px;
+            margin-bottom: 15px;
+        }
+
+        .footer-links p {
+            color: white;
+            margin: 5px 0;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .footer-links p:hover {
+            text-decoration: underline;
+        }
+
+        .footer-copy {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #bbb;
+        }
+
+        .auth-screen {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .remember-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 6px;
+            margin: 12px 0;
+            padding-left: 4px;
+        }
+
+        .remember-row input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .remember-row label {
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .auth-box {
+            background: #132238;
+            padding: 30px;
+            border-radius: 15px;
+            width: 320px;
+        }
+
+        .auth-box h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .auth-box input:not([type="checkbox"]) {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .auth-box button,
+        .hero-watch-btn {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #0063e5;
+            color: white;
+            cursor: pointer;
+        }
+
+        .auth-box button {
+            width: 100%;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #0d1b2d;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .hero-slider {
+            height: 350px;
+            overflow: hidden;
+        }
+
+        .hero-slide {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 0.5s ease-in-out;
+        }
+
+        .hero-slide h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .hero-slide p {
+            font-size: 1.2rem;
+            max-width: 500px;
+        }
+
+        .hero-watch-btn {
+            margin-top: 20px;
+            width: 150px;
+            font-size: 16px;
+        }
+
+        .section {
+            padding: 20px;
+        }
+
+        .row {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .card {
+            min-width: 180px;
+            max-width: 180px;
+            background: #15263f;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .poster {
+            height: 250px;
+            width: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-content {
+            padding: 10px;
+        }
+
+        .card button {
+            margin-top: 8px;
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-radius: 6px;
+            background: #0063e5;
+            color: white;
+            cursor: pointer;
+        }
+
+        .progress {
+            width: 100%;
+            height: 8px;
+            background: #333;
+            border-radius: 4px;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #00d26a;
+            border-radius: 4px;
+        }
+
+        .search {
+            padding: 15px 20px;
+        }
+
+        .search input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #1f3557;
+    border-radius: 8px;
+    background: #0d1b2d;
+    color: white;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.search input::placeholder {
+    color: #9bb0c9;
+}
+
+.search input:focus {
+    border-color: #0063e5;
+    box-shadow: 0 0 0 3px rgba(0, 99, 229, 0.25);
+    background: #0b1626;
+}
+
+        .logout {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            background: #e53935;
+            color: white;
+            cursor: pointer;
+        }
+
+        .movie-back-btn {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            margin-bottom: 25px;
+        }
+
+        .movie-action-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            background: #0063e5;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-top: 20px;
+        }
+
+        .trailer-btn {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(4px);
+        }
+
+        .movie-action-btn:hover,
+        .movie-back-btn:hover {
+            opacity: 0.85;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="authScreen" class="auth-screen">
+        <div class="auth-box">
+            <h1>Wisney+</h1>
+            <input id="username" placeholder="Username">
+            <input id="password" type="password" placeholder="Password">
+            <br>
+            <div class="remember-row">
+                <input type="checkbox" id="rememberMe">
+                <label for="rememberMe">Keep me signed in</label>
+            </div>
+            <button onclick="loginOrSignup()">Login / Sign Up</button>
+            <br><br>
+            <p>First time? Just enter a new username and password.</p>
+        </div>
+    </div>
+
+    <div id="app" class="hidden">
+        <header>
+            <div class="logo"><img src="https://uploads.onecompiler.io/44ks3jcac/1780705503300/new-walt-disney-font-regular%20(1).png"></div>
+            <button class="logout" onclick="logout()">Logout</button>
+        </header>
+
+        <div class="hero-slider">
+            <div class="hero-slide" id="slide">
+                <h1 id="slideTitle">Ricky Rat</h1>
+                <p id="slideDesc">Wisney's biggest original adventure.</p>
+                <button class="hero-watch-btn" onclick="watchFeaturedMovie()">▶ Watch</button>
+            </div>
+        </div>
+
+        <div class="search"><input id="searchBox" placeholder="Search..." oninput="renderMovies()"></div>
+        <div class="section">
+            <h2>Continue Watching</h2>
+            <div id="continueWatching" class="row"></div>
+        </div>
+        <div class="section">
+            <h2>Favorites</h2>
+            <div id="favorites" class="row"></div>
+        </div>
+        <div class="section">
+            <h2>Movies</h2>
+            <div id="movies" class="row"></div>
+        </div>
+
+        <footer class="footer">
+            <img src="https://uploads.onecompiler.io/44ks3jcac/1780705503300/new-walt-disney-font-regular%20(1).png" class="footer-logo">
+            <div class="footer-links">
+                <p>Wisney Terms of Use</p>
+                <p>Privacy Policy</p>
+                <p>Help</p>
+            </div>
+            <div class="footer-copy">© Wisney. All Rights Reserved.</div>
+        </footer>
+    </div>
+
+    <div id="moviePage" class="hidden">
+        <div id="movieBackground" style="min-height:100vh;padding:40px;background-size:cover;background-position:center;">
+            <button class="movie-back-btn" onclick="goHome()">
+                ←
+            </button>
+            <h1 id="movieTitle"></h1>
+            <br>
+            <h3 id="movieRating"></h3>
+            <p id="movieDescription"></p>
+            <br>
+            <button class="movie-action-btn" onclick="playMovie()">
+                ▶ Play
+            </button>
+
+            <button class="movie-action-btn trailer-btn">
+                ▶ Trailer
+            </button>
+        </div>
+    </div>
+
+    <div id="videoPage" class="hidden">
+        <button class="movie-back-btn" onclick="backToMovie()" style="position: absolute; top: 20px; left: 20px; z-index: 10;">
+            ←
+        </button>
+        <video id="moviePlayer" controls style="width:100%; height:100vh; background:black;"></video>
+    </div>
+
+    <script>
+        document.body.classList.add("login-mode");
+
+        const movies = [
+            {
+                title:"Ricky Rat",
+                rating:"NC-17",
+                description:"Wisney's biggest original series.",
+                thumbnail:"https://picsum.photos/id/1018/300/450",
+                background:"https://picsum.photos/id/1018/1200/500",
+                video:"Wisney31.github.io/wisney/Test_Video.mp4"
+            },
+            {
+                title:"Test-1",
+                rating:"PG-13",
+                description:"You smell like beef and cheese.",
+                thumbnail:"https://picsum.photos/id/1015/300/450",
+                background:"https://picsum.photos/id/1015/1200/500",
+                video:"https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8"
+            },
+            {
+                title:"Test-2",
+                rating:"PG",
+                description:"You sit on a throne of lies.",
+                thumbnail:"https://picsum.photos/id/1016/300/450",
+                background:"https://picsum.photos/id/1016/1200/500",
+                video:"https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8"
+            }
+        ];
+
+        function removeFromContinueWatching(title) {
+            const user = currentUserData();
+            if (!user) return;
+            user.continueWatching = user.continueWatching.filter(movie => movie.title !== title);
+            saveCurrentUserData(user);
+            renderContinueWatching();
+        }
+
+        const featuredShows = [
+            {
+                title: "Ricky Rat",
+                desc: "Wisney's biggest original series.",
+                image: "https://picsum.photos/id/1018/1200/500"
+            },
+            {
+                title: "Test-1",
+                desc: "You smell like beef and cheese.",
+                image: "https://picsum.photos/id/1015/1200/500"
+            },
+            {
+                title: "Test-2",
+                desc: "You sit on a throne of lies.",
+                image: "https://picsum.photos/id/1016/1200/500"
+            }
+        ];
+
+        let currentSlide = 0;
+        let currentFeaturedMovie = "";
+        let currentMovie = null;
+        let sliderInterval = null;
+
+        function getUsers() {
+            return JSON.parse(localStorage.getItem("users")) || {};
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem("users", JSON.stringify(users));
+        }
+
+        function loginOrSignup() {
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value;
+            if (!username || !password) {
+                alert("Fill in all fields");
+                return;
+            }
+            const users = getUsers();
+            if (!users[username]) {
+                users[username] = {
+                    password: password,
+                    favorites: [],
+                    continueWatching: []
+                };
+                saveUsers(users);
+            }
+            if (users[username].password !== password) {
+                alert("Wrong password");
+                return;
+            }
+            if (document.getElementById("rememberMe").checked) {
+                localStorage.setItem("currentUser", username);
+            } else {
+                sessionStorage.setItem("currentUser", username);
+            }
+            loadApp();
+        }
+
+        function logout() {
+            localStorage.removeItem("currentUser");
+            sessionStorage.removeItem("currentUser");
+            if(sliderInterval) clearInterval(sliderInterval);
+            document.getElementById("app").classList.add("hidden");
+            document.getElementById("authScreen").classList.remove("hidden");
+            document.body.classList.add("login-mode");
+        }
+
+        function currentUserData() {
+            const users = getUsers();
+            const name = localStorage.getItem("currentUser") || sessionStorage.getItem("currentUser");
+            return users[name] || null;
+        }
+
+        function saveCurrentUserData(data) {
+            const users = getUsers();
+            const name = localStorage.getItem("currentUser") || sessionStorage.getItem("currentUser");
+            if (name) {
+                users[name] = data;
+                saveUsers(users);
+            }
+        }
+
+        function toggleFavorite(title) {
+            const user = currentUserData();
+            if (!user) return;
+            if (!user.favorites) user.favorites = [];
+            
+            if (user.favorites.includes(title)) {
+                user.favorites = user.favorites.filter(m => m !== title);
+            } else {
+                user.favorites.push(title);
+            }
+            saveCurrentUserData(user);
+            renderFavorites();
+            renderMovies();
+        }
+
+        function watchFeaturedMovie() {
+            openMovie(currentFeaturedMovie);
+        }
+
+        function openMovie(title) {
+            currentMovie = movies.find(movie => movie.title === title);
+            if(!currentMovie) return;
+            document.getElementById("app").classList.add("hidden");
+            document.getElementById("moviePage").classList.remove("hidden");
+            document.getElementById("movieTitle").textContent = currentMovie.title;
+            document.getElementById("movieRating").textContent = currentMovie.rating;
+            document.getElementById("movieDescription").textContent = currentMovie.description;
+            document.getElementById("movieBackground").style.backgroundImage = `linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.8)), url('${currentMovie.background}')`;
+        }
+
+        function playMovie() {
+            document.getElementById("moviePage").classList.add("hidden");
+            document.getElementById("videoPage").classList.remove("hidden");
+
+            const player = document.getElementById("moviePlayer");
+            player.src = currentMovie.video;
+            player.load();
+
+            player.onloadedmetadata = () => {
+                const savedTime = localStorage.getItem("progress_" + currentMovie.title);
+                if (savedTime) {
+                    player.currentTime = parseFloat(savedTime);
+                }
+            };
+
+            player.onended = () => {
+                const user = currentUserData();
+                if (user) {
+                    user.continueWatching = user.continueWatching.filter(movie => movie.title !== currentMovie.title);
+                    saveCurrentUserData(user);
+                    renderContinueWatching();
+                }
+                localStorage.removeItem("progress_" + currentMovie.title);
+                showHome();
+            };
+
+            player.ontimeupdate = () => {
+                const currentTime = player.currentTime;
+                const duration = player.duration;
+
+                if (!duration) return;
+
+                const percent = (currentTime / duration) * 100;
+                localStorage.setItem("progress_" + currentMovie.title, currentTime);
+                updateContinueWatching(currentMovie.title, currentTime, duration);
+
+                if (percent >= 95) {
+                    removeFromContinueWatching(currentMovie.title);
+                    localStorage.removeItem("progress_" + currentMovie.title);
+                }
+            };
+        }
+
+        function showHome() {
+            document.getElementById("videoPage").classList.add("hidden");
+            document.getElementById("moviePage").classList.add("hidden");
+            document.getElementById("app").classList.remove("hidden");
+            const player = document.getElementById("moviePlayer");
+            player.pause();
+        }
+
+        function updateContinueWatching(title, currentTime, duration) {
+            if (!duration) return;
+
+            const percent = Math.floor((currentTime / duration) * 100);
+            const user = currentUserData();
+            if (!user) return;
+            if (!user.continueWatching) user.continueWatching = [];
+
+            user.continueWatching = user.continueWatching.filter(movie => movie.title !== title);
+            user.continueWatching.push({
+                title: title,
+                progress: percent
+            });
+
+            saveCurrentUserData(user);
+            renderContinueWatching();
+        }
+
+        function backToMovie() {
+            document.getElementById("videoPage").classList.add("hidden");
+            document.getElementById("moviePage").classList.remove("hidden");
+            const player = document.getElementById("moviePlayer");
+            player.pause();
+        }
+
+        function goHome() {
+            document.getElementById("moviePage").classList.add("hidden");
+            document.getElementById("app").classList.remove("hidden");
+        }
+
+        function ensureThumbnails() {
+            const used = new Set();
+            movies.forEach((movie, i) => {
+                if (!movie.thumbnail) {
+                    movie.thumbnail = movie.background;
+                }
+                if (used.has(movie.thumbnail)) {
+                    movie.thumbnail = `https://picsum.photos/id/${237 + i}/300/450`;
+                }
+                used.add(movie.thumbnail);
+            });
+        }
+
+        function renderMovies() {
+            const container = document.getElementById("movies");
+            const searchInput = document.getElementById("searchBox");
+            const search = searchInput ? searchInput.value.toLowerCase() : "";
+            container.innerHTML = "";
+
+            const user = currentUserData();
+            if (!user) return;
+            if (!user.favorites) user.favorites = [];
+
+            movies
+                .filter(movie => movie.title.toLowerCase().includes(search))
+                .forEach(movie => {
+                    const favorite = user.favorites.includes(movie.title);
+                    container.innerHTML += `
+                    <div class="card">
+                        <img class="poster" src="${movie.thumbnail}" alt="${movie.title}">
+                        <div class="card-content">
+                            <button onclick="openMovie('${movie.title}')">View</button>
+                            <button onclick="toggleFavorite('${movie.title}')">
+                                ${favorite ? "Remove Favorite" : "Add Favorite"}
+                            </button>
+                        </div>
+                    </div>`;
+                });
+        }
+
+        function renderFavorites() {
+            const c = document.getElementById("favorites");
+            c.innerHTML = "";
+
+            const user = currentUserData();
+            if (!user || !user.favorites) return;
+
+            user.favorites.forEach(movieTitle => {
+                const m = movies.find(m => m.title === movieTitle);
+                if (!m) return;
+
+                c.innerHTML += `
+                <div class="card" onclick="openMovie('${m.title}')" style="cursor:pointer;">
+                    <img class="poster" src="${m.thumbnail}">
+                </div>`;
+            });
+        }
+
+        function renderContinueWatching() {
+            const c = document.getElementById("continueWatching");
+            c.innerHTML = "";
+
+            const user = currentUserData();
+            if (!user || !user.continueWatching) return;
+
+            user.continueWatching.forEach(movie => {
+                const m = movies.find(m => m.title === movie.title);
+                if (!m) return;
+
+                c.innerHTML += `
+                <div class="card" onclick="openMovie('${m.title}')" style="cursor:pointer;">
+                    <img class="poster" src="${m.thumbnail}">
+                    <div class="card-content">
+                        ${movie.progress}% watched
+                        <div class="progress">
+                            <div class="progress-fill" style="width:${movie.progress}%"></div>
+                        </div>
+                    </div>
+                </div>`;
+            });
+        }
+
+        function startSlider() {
+            if(sliderInterval) clearInterval(sliderInterval);
+            
+            function updateSlide() {
+                const slide = featuredShows[currentSlide];
+                currentFeaturedMovie = slide.title;
+                const slideEl = document.getElementById("slide");
+                document.getElementById("slideTitle").textContent = slide.title;
+                document.getElementById("slideDesc").textContent = slide.desc;
+                slideEl.style.backgroundImage = `linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.7)),url('${slide.image}')`;
+                currentSlide = (currentSlide + 1) % featuredShows.length;
+            }
+            updateSlide();
+            sliderInterval = setInterval(updateSlide, 5000);
+        }
+
+        function loadApp() {
+            ensureThumbnails();
+            document.getElementById("authScreen").classList.add("hidden");
+            document.getElementById("app").classList.remove("hidden");
+            document.body.classList.remove("login-mode");
+
+            startSlider();
+            renderMovies();
+            renderFavorites();
+            renderContinueWatching();
+        }
+
+        if (localStorage.getItem("currentUser") || sessionStorage.getItem("currentUser")) {
+            loadApp();
+        }
+    </script>
+</body>
+
+</html>
